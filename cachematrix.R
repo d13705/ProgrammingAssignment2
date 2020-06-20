@@ -1,15 +1,35 @@
-## Put comments here that give an overall description of what your
-## functions do
+## This is an assignment of the course Rprogramming
 
-## Write a short comment describing this function
+## This function takes a matrix and returns a list with four functions, 
+## set, get, setSolve, getInv
 
 makeCacheMatrix <- function(x = matrix()) {
-
+        mInverse <- NULL
+        set <- function(y) {
+                x <<- y
+                mInverse <<- NULL
+        }
+        get <- function() x
+        setSolve <- function(solve) mInverse <- solve
+        getInv <- function() mInverse
+        list(set = set, get = get,
+             setSolve = setSolve,
+             getInv = getInv)
 }
 
 
-## Write a short comment describing this function
+## This function return a matrix that is the inverse of 'x'
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        mInverse <- x$getInv()
+        data <- x$get()
+        mInverse <- solve(data, ...)
+        
+        if(all(mInverse == data) == TRUE) {
+                message("getting cached data")
+                return(mInverse)
+        }
+        
+        x$setSolve(mInverse)
+        mInverse
 }
